@@ -6,7 +6,404 @@
   <title>Fleet Cost Calculator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+/* ============================================================
+   Fleet Calculator — Compiled CSS
+   Source: styles.scss  |  Cirrus Aircraft brand color theme
+   Brand palette: Cirrus Blue #0078CA, Cirrus Black #000000,
+                  Cirrus White #FFFFFF, Cirrus Gray #747678
+   Text rule: black on light backgrounds, white on dark/blue.
+   ============================================================ */
+
+/* ── Reset ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Base ── */
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #f4f5f7;
+  color: #000000;
+  min-height: 100vh;
+  padding: 3rem 1.5rem 4rem;
+}
+
+/* ── Container ── */
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* ── Title Block ── */
+.title-block {
+  margin-bottom: 2.5rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0078CA;
+  margin-bottom: 0.75rem;
+}
+
+.eyebrow::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #0078CA;
+  border-radius: 2px;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: clamp(1.75rem, 4vw, 2.55rem);
+  line-height: 1.2;
+  color: #000000;
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: #000000;
+  font-weight: 400;
+  line-height: 1.65;
+  max-width: 520px;
+}
+
+/* ── Layout ── */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 310px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 680px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Sliders Column ── */
+.sliders-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.slider-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.slider-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.slider-label {
+  font-size: 0.85rem;
+  color: #000000;
+  font-weight: 400;
+}
+
+.slider-val {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #000000;
+}
+
+/* ── Range Input — Cirrus blue thumb ── */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2px;
+  background: #dde1e8;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #0078CA;
+  border: 3px solid #f4f5f7;
+  box-shadow: 0 0 0 1.5px #0078CA;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type='range']::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 1.5px #0078CA, 0 0 0 4px rgba(0, 120, 202, 0.12);
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #0078CA;
+  border: 3px solid #f4f5f7;
+  box-shadow: 0 0 0 1.5px #0078CA;
+  cursor: pointer;
+}
+
+/* ── Fuel Type Buttons ── */
+.fuel-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.fuel-btn {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1.5px solid #dde1e8;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #000000;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.fuel-btn:hover:not(.active) {
+  border-color: #bcc2cc;
+  color: #000000;
+}
+
+.fuel-btn.active {
+  border-color: #0078CA;
+  background: #e6f2fa;
+  color: #0078CA;
+  font-weight: 600;
+}
+
+/* ── Summary Box ── */
+.summary-box {
+  position: relative;
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 1.5rem 1.6rem;
+  border: 1px solid #dde1e8;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.summary-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #0078CA;
+}
+
+.summary-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0078CA;
+  margin-bottom: 1.1rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #dde1e8;
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+  padding-top: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+.summary-row-label {
+  font-size: 0.84rem;
+  color: #000000;
+}
+
+.summary-row-val {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #000000;
+}
+
+.summary-row--total .summary-row-label {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #000000;
+}
+
+.summary-row--total .summary-row-val {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0078CA;
+  letter-spacing: -0.01em;
+}
+
+/* ── Results Card (Cirrus Blue background) ── */
+.results-card {
+  background: #0078CA;
+  border-radius: 16px;
+  padding: 1.75rem 1.5rem;
+  color: #FFFFFF;
+  position: sticky;
+  top: 2rem;
+}
+
+.results-eyebrow {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  margin-bottom: 0.7rem;
+}
+
+.results-big {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.6rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #FFFFFF;
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.02em;
+}
+
+.results-big-label {
+  font-size: 0.8rem;
+  color: #FFFFFF;
+}
+
+.results-accent-bar {
+  width: 32px;
+  height: 2px;
+  background: #FFFFFF;
+  border-radius: 2px;
+  margin: 1rem 0 1.5rem;
+}
+
+/* ── Result Line Items ── */
+.results-line {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.results-line:last-of-type {
+  border-bottom: none;
+}
+
+.results-line__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.results-line__left {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.results-line__label {
+  font-size: 0.82rem;
+  color: #FFFFFF;
+}
+
+.results-line__val {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
+/* ── Info Button ── */
+.info-btn {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  color: #FFFFFF;
+  font-size: 0.62rem;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+  padding: 0;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.info-btn:hover,
+.info-btn.open {
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ── Info Panel ── */
+.info-panel {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.28s ease, opacity 0.2s ease;
+}
+
+.info-panel.open {
+  max-height: 200px;
+  opacity: 1;
+}
+
+.info-panel__inner {
+  margin-top: 0.6rem;
+  padding: 0.75rem 0.85rem;
+  background: #005a99;
+  border-radius: 8px;
+  border-left: 2px solid #FFFFFF;
+  font-size: 0.76rem;
+  color: #FFFFFF;
+  line-height: 1.6;
+}
+
+/* ── Results Footer ── */
+.results-footer {
+  margin-top: 1.25rem;
+  font-size: 0.66rem;
+  color: #FFFFFF;
+  line-height: 1.55;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+  </style>
 </head>
 <body>
 <div class="container">
@@ -178,6 +575,248 @@
   </div><!-- /layout -->
 </div><!-- /container -->
 
-<script src="script.js"></script>
+  <script>
+// ============================================================
+// Fleet Cost Calculator — JavaScript
+// ============================================================
+
+// ── Constants ────────────────────────────────────────────
+
+const CONFIG = {
+  GPH:        8.5,    // Fuel burn rate (gallons per hour, typical single-engine)
+  LABOR:      95,     // Labor rate ($/hr)
+  OIL_PER_HR: 5,      // Oil & consumables flat rate ($/hr)
+  OH_COST:    25000,  // Engine overhaul cost ($)
+
+  // Aircraft acquisition — per-unit purchase price (one-time).
+  // Update to match the model being analyzed:
+  //   Cirrus SR20 G7   ≈ $735,000
+  //   Cirrus SR22 G7   ≈ $1,050,000
+  //   Cirrus SR22T G7  ≈ $1,150,000
+  AIRCRAFT_PRICE: 500000,
+
+  // 100LL Avgas
+  TBO_100LL:  2000,   // Time between overhaul (hrs)
+  INT_100LL:  50,     // Engine inspection interval (hrs)
+
+  // Unleaded (UL94)
+  TBO_UL:     2200,
+  INT_UL:     100,
+
+  // Labor hours per inspection type
+  ENG_LABOR:  2,      // Per engine check
+  AIR_LABOR:  8,      // Per 100-hr airframe check
+  ANN_LABOR:  16,     // Per annual inspection
+};
+
+// ── State ────────────────────────────────────────────────
+
+let fuelType = '100LL';
+
+// ── DOM References ───────────────────────────────────────
+
+const els = {
+  slFleet:        document.getElementById('slFleet'),
+  slHours:        document.getElementById('slHours'),
+  slFuel:         document.getElementById('slFuel'),
+  slLabor:        document.getElementById('slLabor'),
+  valFleet:       document.getElementById('valFleet'),
+  valHours:       document.getElementById('valHours'),
+  valFuel:        document.getElementById('valFuel'),
+  valLabor:       document.getElementById('valLabor'),
+  btn100LL:       document.getElementById('btn100LL'),
+  btnUL:          document.getElementById('btnUL'),
+  bigPerHour:     document.getElementById('bigPerHour'),
+  fuelLineLabel:  document.getElementById('fuelLineLabel'),
+  rFuel:          document.getElementById('rFuel'),
+  rMx:            document.getElementById('rMx'),
+  rOil:           document.getElementById('rOil'),
+  rOH:            document.getElementById('rOH'),
+  infoFuelText:   document.getElementById('infoFuelText'),
+  infoMxText:     document.getElementById('infoMxText'),
+  infoOHText:     document.getElementById('infoOHText'),
+  resultsFooter:  document.getElementById('resultsFooter'),
+  sumAcquisition: document.getElementById('sumAcquisition'),
+  sumFleet:       document.getElementById('sumFleet'),
+  sumPerAc:       document.getElementById('sumPerAc'),
+  sumPerHr:       document.getElementById('sumPerHr'),
+};
+
+// ── Formatters ───────────────────────────────────────────
+
+/**
+ * Format a dollar amount, abbreviating millions.
+ * @param {number} n
+ * @returns {string}
+ */
+function formatDollars(n) {
+  if (n >= 1_000_000) return '$' + (n / 1_000_000).toFixed(2) + 'M';
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+
+/**
+ * Format a per-hour dollar amount (no cents).
+ * @param {number} n
+ * @returns {string}
+ */
+function formatPerHour(n) {
+  return '$' + Math.round(n);
+}
+
+// ── Info Panel Toggle ────────────────────────────────────
+
+/**
+ * Toggle an info panel open/closed.
+ * Only one panel can be open at a time.
+ * @param {string} panelId  - ID of the .info-panel element
+ * @param {HTMLElement} btn - The .info-btn that was clicked
+ */
+function toggleInfo(panelId, btn) {
+  const panel  = document.getElementById(panelId);
+  const isOpen = panel.classList.contains('open');
+
+  // Close all panels
+  closeAllInfoPanels();
+
+  // If it wasn't already open, open it
+  if (!isOpen) {
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+    btn.classList.add('open');
+  }
+}
+
+function closeAllInfoPanels() {
+  document.querySelectorAll('.info-panel').forEach(p => {
+    p.classList.remove('open');
+    p.setAttribute('aria-hidden', 'true');
+  });
+  document.querySelectorAll('.info-btn').forEach(b => b.classList.remove('open'));
+}
+
+// ── Fuel Type ────────────────────────────────────────────
+
+/**
+ * Switch the active fuel type and recalculate.
+ * @param {string} type - '100LL' or 'UL'
+ */
+function setFuelType(type) {
+  fuelType = type;
+  els.btn100LL.classList.toggle('active', type === '100LL');
+  els.btnUL.classList.toggle('active', type === 'UL');
+  calculate();
+}
+
+// ── Core Calculation ─────────────────────────────────────
+
+function calculate() {
+  const fleet   = parseInt(els.slFleet.value);
+  const hrs     = parseInt(els.slHours.value);
+  const fuelPPG = parseFloat(els.slFuel.value);
+  const labor   = parseInt(els.slLabor.value);
+  const isUL    = fuelType === 'UL';
+
+  const tbo    = isUL ? CONFIG.TBO_UL   : CONFIG.TBO_100LL;
+  const engInt = isUL ? CONFIG.INT_UL   : CONFIG.INT_100LL;
+
+  // Update slider display values
+  els.valFleet.textContent = fleet;
+  els.valHours.textContent = hrs;
+  els.valFuel.textContent  = fuelPPG.toFixed(2);
+  els.valLabor.textContent = labor;
+
+  // ── Per-hour cost breakdown ──
+  const fuelHr = CONFIG.GPH * fuelPPG;
+
+  // Scheduled maintenance prorated per flight hour
+  const engHr  = (CONFIG.ENG_LABOR * labor) / engInt;   // engine check per hr
+  const airHr  = (CONFIG.AIR_LABOR * labor) / 100;      // 100-hr airframe per hr
+  const annHr  = (CONFIG.ANN_LABOR * labor) / hrs;      // annual inspection per hr
+  const mxHr   = engHr + airHr + annHr;
+
+  const ohHr   = CONFIG.OH_COST / tbo;                         // overhaul reserve per hr
+  const totHr  = fuelHr + mxHr + CONFIG.OIL_PER_HR + ohHr;
+
+  // ── Fleet totals ──
+  const perAcYr          = totHr * hrs;                    // $/yr per aircraft (operating)
+  const fleetYr          = perAcYr * fleet;                // $/yr for whole fleet (operating)
+  const fleetAcquisition = CONFIG.AIRCRAFT_PRICE * fleet;  // $ one-time fleet purchase
+
+  // ── Update right card ──
+  els.bigPerHour.textContent  = formatPerHour(totHr);
+  els.rFuel.textContent       = formatPerHour(fuelHr);
+  els.rMx.textContent         = formatPerHour(mxHr);
+  els.rOil.textContent        = '$' + CONFIG.OIL_PER_HR;
+  els.rOH.textContent         = formatPerHour(ohHr);
+  els.fuelLineLabel.textContent = `Fuel (${CONFIG.GPH} gph avg)`;
+
+  // ── Update dynamic info text ──
+  els.infoFuelText.textContent =
+    `Calculated as fuel burn rate (${CONFIG.GPH} gph) × fuel price ` +
+    `($${fuelPPG.toFixed(2)}/gal) = $${fuelHr.toFixed(2)}/hr. ` +
+    `Fuel is typically the single largest operating cost. ` +
+    `Avgas 100LL prices vary significantly by airport and region.`;
+
+  els.infoMxText.textContent =
+    `Covers FAR-required inspections prorated per flight hour: ` +
+    `engine checks every ${engInt} hrs (${isUL ? 'unleaded' : '100LL'}) at ` +
+    `${CONFIG.ENG_LABOR} labor hrs each; 100-hr airframe inspections at ` +
+    `${CONFIG.AIR_LABOR} labor hrs each; and one annual inspection at ` +
+    `${CONFIG.ANN_LABOR} labor hrs spread over ${hrs} hrs/yr. ` +
+    `Labor at $${labor}/hr. Parts not included.`;
+
+  els.infoOHText.textContent =
+    `Piston engines must be overhauled at TBO — ` +
+    `${tbo.toLocaleString()} hrs for ${isUL ? 'unleaded (UL94)' : '100LL avgas'}. ` +
+    `This prorates a $${CONFIG.OH_COST.toLocaleString()} estimated overhaul ` +
+    `cost across every flight hour ($${ohHr.toFixed(2)}/hr), ` +
+    `so you're financially prepared when TBO arrives. ` +
+    `Factory reman typically runs $18,000–$35,000 depending on engine model.`;
+
+  els.resultsFooter.textContent =
+    `Estimates based on FAR Part 91/141 intervals. ` +
+    `Labor $${labor}/hr assumed. Fuel burn ${CONFIG.GPH} gph (typical single-engine). ` +
+    `${isUL
+      ? `Unleaded: ${engInt}-hr engine checks, TBO ${tbo.toLocaleString()} hrs.`
+      : `100LL: ${engInt}-hr engine checks, TBO ${tbo.toLocaleString()} hrs.`
+    } Parts not included in maintenance line.`;
+
+  // ── Update left summary ──
+  els.sumAcquisition.textContent = formatDollars(fleetAcquisition);
+  els.sumFleet.textContent       = formatDollars(fleetYr);
+  els.sumPerAc.textContent       = formatDollars(perAcYr);
+  els.sumPerHr.textContent       = formatPerHour(totHr) + '/hr';
+}
+
+// ── Event Listeners ───────────────────────────────────────
+
+// Sliders
+['slFleet', 'slHours', 'slFuel', 'slLabor'].forEach(id => {
+  document.getElementById(id).addEventListener('input', calculate);
+});
+
+// Fuel type buttons
+document.querySelectorAll('.fuel-btn').forEach(btn => {
+  btn.addEventListener('click', () => setFuelType(btn.dataset.fuel));
+});
+
+// Info buttons — delegated
+document.addEventListener('click', e => {
+  const infoBtn = e.target.closest('.info-btn');
+  if (infoBtn) {
+    e.stopPropagation();
+    toggleInfo(infoBtn.dataset.target, infoBtn);
+    return;
+  }
+  // Click outside any results-line closes all panels
+  if (!e.target.closest('.results-line')) {
+    closeAllInfoPanels();
+  }
+});
+
+// ── Init ─────────────────────────────────────────────────
+
+calculate();
+  </script>
 </body>
 </html>
