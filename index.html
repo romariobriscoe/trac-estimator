@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fleet Cost Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="container">
+
+  <!-- ── TITLE BLOCK ── -->
+  <div class="title-block">
+    <div class="eyebrow">Fleet Operations</div>
+    <h1>Estimate your fleet's operating cost</h1>
+    <p class="subtitle">
+      Adjust fleet size, flight hours, and fuel price to get an instant cost estimate.
+      Your actual costs may vary — use this as a planning baseline.
+    </p>
+  </div>
+
+  <!-- ── TWO-COLUMN LAYOUT ── -->
+  <div class="layout">
+
+    <!-- Left: Sliders + Summary -->
+    <div class="sliders-col">
+
+      <!-- Fleet size -->
+      <div class="slider-field">
+        <div class="slider-top">
+          <span class="slider-label">Fleet size</span>
+          <span class="slider-val"><span id="valFleet">5</span> aircraft</span>
+        </div>
+        <input type="range" id="slFleet" min="5" max="30" value="5" step="1" />
+      </div>
+
+      <!-- Flight hours -->
+      <div class="slider-field">
+        <div class="slider-top">
+          <span class="slider-label">Flight hours / aircraft / year</span>
+          <span class="slider-val"><span id="valHours">500</span> hrs</span>
+        </div>
+        <input type="range" id="slHours" min="50" max="2000" value="500" step="25" />
+      </div>
+
+      <!-- Fuel price -->
+      <div class="slider-field">
+        <div class="slider-top">
+          <span class="slider-label">Fuel price</span>
+          <span class="slider-val">$<span id="valFuel">6.50</span> / gal</span>
+        </div>
+        <input type="range" id="slFuel" min="3" max="15" value="6.50" step="0.25" />
+      </div>
+
+      <!-- Labor cost -->
+      <div class="slider-field">
+        <div class="slider-top">
+          <span class="slider-label">Labor cost</span>
+          <span class="slider-val">$<span id="valLabor">95</span> / hr</span>
+        </div>
+        <input type="range" id="slLabor" min="35" max="200" value="95" step="5" />
+      </div>
+
+      <!-- Fuel type -->
+      <div class="slider-field">
+        <div class="slider-top">
+          <span class="slider-label">Fuel type</span>
+        </div>
+        <div class="fuel-row">
+          <button class="fuel-btn active" id="btn100LL" data-fuel="100LL">100LL Avgas</button>
+          <button class="fuel-btn" id="btnUL" data-fuel="UL">Unleaded (UL94)</button>
+        </div>
+      </div>
+
+      <!-- Fleet cost summary -->
+      <div class="summary-box">
+        <div class="summary-label">Fleet Cost Summary</div>
+        <div class="summary-row">
+          <span class="summary-row-label">Fleet acquisition cost</span>
+          <span class="summary-row-val" id="sumAcquisition">$0</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-row-label">Annual operating cost</span>
+          <span class="summary-row-val" id="sumFleet">$0</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-row-label">Per aircraft / year</span>
+          <span class="summary-row-val" id="sumPerAc">$0</span>
+        </div>
+        <div class="summary-row summary-row--total">
+          <span class="summary-row-label">Per flight hour</span>
+          <span class="summary-row-val" id="sumPerHr">$0</span>
+        </div>
+      </div>
+
+    </div><!-- /sliders-col -->
+
+    <!-- Right: Dark results card -->
+    <div class="results-card">
+
+      <div class="results-eyebrow">Per-Aircraft · Per-Hour Cost</div>
+      <div class="results-big" id="bigPerHour">$0</div>
+      <div class="results-big-label">direct operating cost</div>
+      <div class="results-accent-bar"></div>
+
+      <!-- Fuel line -->
+      <div class="results-line">
+        <div class="results-line__top">
+          <div class="results-line__left">
+            <span class="results-line__label" id="fuelLineLabel">Fuel (8.5 gph avg)</span>
+            <button class="info-btn" data-target="infoFuel" aria-label="More info about fuel cost">i</button>
+          </div>
+          <span class="results-line__val" id="rFuel">$0</span>
+        </div>
+        <div class="info-panel" id="infoFuel" aria-hidden="true">
+          <div class="info-panel__inner" id="infoFuelText">
+            Calculated as fuel burn rate × fuel price per gallon. Fuel is typically the single largest operating cost. Avgas 100LL prices vary significantly by airport and region.
+          </div>
+        </div>
+      </div>
+
+      <!-- Scheduled maintenance line -->
+      <div class="results-line">
+        <div class="results-line__top">
+          <div class="results-line__left">
+            <span class="results-line__label">Scheduled maintenance</span>
+            <button class="info-btn" data-target="infoMx" aria-label="More info about scheduled maintenance">i</button>
+          </div>
+          <span class="results-line__val" id="rMx">$0</span>
+        </div>
+        <div class="info-panel" id="infoMx" aria-hidden="true">
+          <div class="info-panel__inner" id="infoMxText">
+            Covers FAR-required inspections prorated per flight hour: engine checks, 100-hr airframe inspections, and one annual inspection. Labor at $95/hr. Parts not included.
+          </div>
+        </div>
+      </div>
+
+      <!-- Oil & consumables line -->
+      <div class="results-line">
+        <div class="results-line__top">
+          <div class="results-line__left">
+            <span class="results-line__label">Oil &amp; consumables</span>
+            <button class="info-btn" data-target="infoOil" aria-label="More info about oil and consumables">i</button>
+          </div>
+          <span class="results-line__val" id="rOil">$5</span>
+        </div>
+        <div class="info-panel" id="infoOil" aria-hidden="true">
+          <div class="info-panel__inner">
+            Estimated at a flat $5/hr covering engine oil, oil filters, air filters, spark plug cleaning, and other minor consumables. Actual costs vary by aircraft type and engine age. A full oil change typically runs $40–$80.
+          </div>
+        </div>
+      </div>
+
+      <!-- Engine overhaul reserve line -->
+      <div class="results-line">
+        <div class="results-line__top">
+          <div class="results-line__left">
+            <span class="results-line__label">Engine overhaul reserve</span>
+            <button class="info-btn" data-target="infoOH" aria-label="More info about engine overhaul reserve">i</button>
+          </div>
+          <span class="results-line__val" id="rOH">$0</span>
+        </div>
+        <div class="info-panel" id="infoOH" aria-hidden="true">
+          <div class="info-panel__inner" id="infoOHText">
+            Piston engines must be overhauled at TBO. This prorates the estimated overhaul cost across every flight hour so you're financially prepared when TBO arrives. Factory reman typically runs $18,000–$35,000 depending on engine model.
+          </div>
+        </div>
+      </div>
+
+      <div class="results-footer" id="resultsFooter">
+        Estimates based on FAR Part 91/141 maintenance intervals. Labor $95/hr assumed. Fuel burn 8.5 gph (typical single-engine). Parts not included in maintenance line.
+      </div>
+
+    </div><!-- /results-card -->
+
+  </div><!-- /layout -->
+</div><!-- /container -->
+
+<script src="script.js"></script>
+</body>
+</html>
