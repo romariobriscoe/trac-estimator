@@ -1,0 +1,396 @@
+/* ============================================================
+   Fleet Calculator — Compiled CSS
+   Source: styles.scss  |  Cirrus Aircraft brand color theme
+   Brand palette: Cirrus Blue #0078CA, Cirrus Black #000000,
+                  Cirrus White #FFFFFF, Cirrus Gray #747678
+   Text rule: black on light backgrounds, white on dark/blue.
+   ============================================================ */
+
+/* ── Reset ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Base ── */
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #f4f5f7;
+  color: #000000;
+  min-height: 100vh;
+  padding: 3rem 1.5rem 4rem;
+}
+
+/* ── Container ── */
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* ── Title Block ── */
+.title-block {
+  margin-bottom: 2.5rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0078CA;
+  margin-bottom: 0.75rem;
+}
+
+.eyebrow::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #0078CA;
+  border-radius: 2px;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: clamp(1.75rem, 4vw, 2.55rem);
+  line-height: 1.2;
+  color: #000000;
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: #000000;
+  font-weight: 400;
+  line-height: 1.65;
+  max-width: 520px;
+}
+
+/* ── Layout ── */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 310px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 680px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Sliders Column ── */
+.sliders-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.slider-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.slider-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.slider-label {
+  font-size: 0.85rem;
+  color: #000000;
+  font-weight: 400;
+}
+
+.slider-val {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #000000;
+}
+
+/* ── Range Input — Cirrus blue thumb ── */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2px;
+  background: #dde1e8;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #0078CA;
+  border: 3px solid #f4f5f7;
+  box-shadow: 0 0 0 1.5px #0078CA;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type='range']::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 1.5px #0078CA, 0 0 0 4px rgba(0, 120, 202, 0.12);
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #0078CA;
+  border: 3px solid #f4f5f7;
+  box-shadow: 0 0 0 1.5px #0078CA;
+  cursor: pointer;
+}
+
+/* ── Fuel Type Buttons ── */
+.fuel-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.fuel-btn {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1.5px solid #dde1e8;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #000000;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.fuel-btn:hover:not(.active) {
+  border-color: #bcc2cc;
+  color: #000000;
+}
+
+.fuel-btn.active {
+  border-color: #0078CA;
+  background: #e6f2fa;
+  color: #0078CA;
+  font-weight: 600;
+}
+
+/* ── Summary Box ── */
+.summary-box {
+  position: relative;
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 1.5rem 1.6rem;
+  border: 1px solid #dde1e8;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.summary-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #0078CA;
+}
+
+.summary-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0078CA;
+  margin-bottom: 1.1rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #dde1e8;
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+  padding-top: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+.summary-row-label {
+  font-size: 0.84rem;
+  color: #000000;
+}
+
+.summary-row-val {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #000000;
+}
+
+.summary-row--total .summary-row-label {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #000000;
+}
+
+.summary-row--total .summary-row-val {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0078CA;
+  letter-spacing: -0.01em;
+}
+
+/* ── Results Card (Cirrus Blue background) ── */
+.results-card {
+  background: #0078CA;
+  border-radius: 16px;
+  padding: 1.75rem 1.5rem;
+  color: #FFFFFF;
+  position: sticky;
+  top: 2rem;
+}
+
+.results-eyebrow {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  margin-bottom: 0.7rem;
+}
+
+.results-big {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.6rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #FFFFFF;
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.02em;
+}
+
+.results-big-label {
+  font-size: 0.8rem;
+  color: #FFFFFF;
+}
+
+.results-accent-bar {
+  width: 32px;
+  height: 2px;
+  background: #FFFFFF;
+  border-radius: 2px;
+  margin: 1rem 0 1.5rem;
+}
+
+/* ── Result Line Items ── */
+.results-line {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.results-line:last-of-type {
+  border-bottom: none;
+}
+
+.results-line__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.results-line__left {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.results-line__label {
+  font-size: 0.82rem;
+  color: #FFFFFF;
+}
+
+.results-line__val {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
+/* ── Info Button ── */
+.info-btn {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  color: #FFFFFF;
+  font-size: 0.62rem;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+  padding: 0;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.info-btn:hover,
+.info-btn.open {
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ── Info Panel ── */
+.info-panel {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.28s ease, opacity 0.2s ease;
+}
+
+.info-panel.open {
+  max-height: 200px;
+  opacity: 1;
+}
+
+.info-panel__inner {
+  margin-top: 0.6rem;
+  padding: 0.75rem 0.85rem;
+  background: #005a99;
+  border-radius: 8px;
+  border-left: 2px solid #FFFFFF;
+  font-size: 0.76rem;
+  color: #FFFFFF;
+  line-height: 1.6;
+}
+
+/* ── Results Footer ── */
+.results-footer {
+  margin-top: 1.25rem;
+  font-size: 0.66rem;
+  color: #FFFFFF;
+  line-height: 1.55;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}

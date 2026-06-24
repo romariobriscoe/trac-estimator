@@ -1,0 +1,462 @@
+// ============================================================
+// Fleet Calculator — Styles
+// Cirrus Aircraft brand color theme
+// Brand palette: Cirrus Blue #0078CA, Cirrus Black #000000,
+//                Cirrus White #FFFFFF, Cirrus Gray #747678
+// ============================================================
+
+// ── Variables ─────────────────────────────────────────────
+
+// Brand colors (official Cirrus palette)
+$cirrus-blue:      #0078CA;
+$cirrus-blue-dark: #005a99;
+$cirrus-blue-bg:   #e6f2fa;
+$cirrus-black:     #000000;
+$cirrus-white:     #FFFFFF;
+$cirrus-gray:      #747678;
+
+// Surface colors
+$bg:              #f4f5f7;
+$bg-card:         $cirrus-white;
+$bg-summary:      #edf0f4;
+
+// Results panel — Cirrus Blue background
+$panel:           $cirrus-blue;
+$panel-border:    rgba(255, 255, 255, 0.18);
+$panel-info-bg:   $cirrus-blue-dark;
+
+// Text — black on light, white on dark/blue
+$text:            $cirrus-black;
+$text-mid:        $cirrus-black;   // grey on light bg → now black
+$text-dim:        $cirrus-black;   // grey labels on light bg → now black
+
+// Borders
+$border:          #dde1e8;
+
+// Typography
+$font-serif: 'Playfair Display', serif;
+$font-sans:  'DM Sans', sans-serif;
+
+// Spacing & shape
+$radius-sm:   6px;
+$radius-md:   12px;
+$radius-lg:   16px;
+
+// Breakpoints
+$bp-mobile: 680px;
+
+
+// ── Mixins ────────────────────────────────────────────────
+
+@mixin label-caps($color: $text-dim) {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $color;
+}
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin transition($props: all, $dur: 0.18s, $ease: ease) {
+  transition: $props $dur $ease;
+}
+
+
+// ── Reset ─────────────────────────────────────────────────
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+// ── Base ──────────────────────────────────────────────────
+
+body {
+  font-family: $font-sans;
+  background: $bg;
+  color: $text;
+  min-height: 100vh;
+  padding: 3rem 1.5rem 4rem;
+}
+
+
+// ── Container ─────────────────────────────────────────────
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+
+// ── Title Block ───────────────────────────────────────────
+
+.title-block {
+  margin-bottom: 2.5rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  @include label-caps($cirrus-blue);
+  margin-bottom: 0.75rem;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: $cirrus-blue;
+    border-radius: 2px;
+  }
+}
+
+h1 {
+  font-family: $font-serif;
+  font-weight: 400;
+  font-size: clamp(1.75rem, 4vw, 2.55rem);
+  line-height: 1.2;
+  color: $text;
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: $text;
+  font-weight: 400;
+  line-height: 1.65;
+  max-width: 520px;
+}
+
+
+// ── Layout ────────────────────────────────────────────────
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 310px;
+  gap: 1.5rem;
+  align-items: start;
+
+  @media (max-width: $bp-mobile) {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+// ── Sliders Column ────────────────────────────────────────
+
+.sliders-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.slider-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.slider-top {
+  @include flex-between;
+  align-items: baseline;
+}
+
+.slider-label {
+  font-size: 0.85rem;
+  color: $text;
+  font-weight: 400;
+}
+
+.slider-val {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: $text;
+}
+
+// Range input — Cirrus blue thumb
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2px;
+  background: $border;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: $cirrus-blue;
+    border: 3px solid $bg;
+    box-shadow: 0 0 0 1.5px $cirrus-blue;
+    cursor: pointer;
+    @include transition(transform box-shadow, 0.15s);
+
+    &:hover {
+      transform: scale(1.15);
+      box-shadow: 0 0 0 1.5px $cirrus-blue, 0 0 0 4px rgba($cirrus-blue, 0.12);
+    }
+  }
+
+  &::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: $cirrus-blue;
+    border: 3px solid $bg;
+    box-shadow: 0 0 0 1.5px $cirrus-blue;
+    cursor: pointer;
+  }
+}
+
+
+// ── Fuel Type Buttons ─────────────────────────────────────
+
+.fuel-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.fuel-btn {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border-radius: $radius-sm;
+  border: 1.5px solid $border;
+  background: transparent;
+  font-family: $font-sans;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: $text;
+  cursor: pointer;
+  @include transition;
+
+  &.active {
+    border-color: $cirrus-blue;
+    background: $cirrus-blue-bg;
+    color: $cirrus-blue;
+    font-weight: 600;
+  }
+
+  &:hover:not(.active) {
+    border-color: darken($border, 10%);
+    color: $text;
+  }
+}
+
+
+// ── Summary Box ───────────────────────────────────────────
+
+.summary-box {
+  position: relative;
+  background: $cirrus-white;
+  border-radius: $radius-md;
+  padding: 1.5rem 1.6rem;
+  border: 1px solid $border;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+
+  // Cirrus Blue accent bar across the top
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: $cirrus-blue;
+  }
+}
+
+.summary-label {
+  @include label-caps($cirrus-blue);
+  margin-bottom: 1.1rem;
+}
+
+.summary-row {
+  @include flex-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid $border;
+
+  &:last-child {
+    border-bottom: none;
+    padding-top: 0.95rem;
+    margin-top: 0.25rem;
+  }
+
+  &-label {
+    font-size: 0.84rem;
+    color: $text;
+  }
+
+  &-val {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: $text;
+  }
+
+  &--total {
+    .summary-row-label {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: $text;
+    }
+
+    .summary-row-val {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: $cirrus-blue;
+      letter-spacing: -0.01em;
+    }
+  }
+}
+
+
+// ── Results Card (Cirrus Blue background) ────────────────
+
+.results-card {
+  background: $panel;
+  border-radius: $radius-lg;
+  padding: 1.75rem 1.5rem;
+  color: $cirrus-white;
+  position: sticky;
+  top: 2rem;
+}
+
+.results-eyebrow {
+  @include label-caps($cirrus-white);
+  margin-bottom: 0.7rem;
+}
+
+.results-big {
+  font-family: $font-serif;
+  font-size: 3.6rem;
+  font-weight: 400;
+  line-height: 1;
+  color: $cirrus-white;
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.02em;
+}
+
+.results-big-label {
+  font-size: 0.8rem;
+  color: $cirrus-white;
+}
+
+.results-accent-bar {
+  width: 32px;
+  height: 2px;
+  background: $cirrus-white;
+  border-radius: 2px;
+  margin: 1rem 0 1.5rem;
+}
+
+// ── Result Line Items ─────────────────────────────────────
+
+.results-line {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid $panel-border;
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+
+  &__top {
+    @include flex-between;
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  &__label {
+    font-size: 0.82rem;
+    color: $cirrus-white;
+  }
+
+  &__val {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: $cirrus-white;
+  }
+}
+
+// ── Info Button ───────────────────────────────────────────
+
+.info-btn {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  color: $cirrus-white;
+  font-size: 0.62rem;
+  font-weight: 700;
+  font-family: $font-sans;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+  padding: 0;
+  @include transition(border-color background color, 0.15s);
+
+  &:hover,
+  &.open {
+    border-color: $cirrus-white;
+    color: $cirrus-white;
+    background: rgba(255, 255, 255, 0.18);
+  }
+}
+
+// ── Info Panel ────────────────────────────────────────────
+
+.info-panel {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  @include transition(max-height opacity, 0.28s ease);
+
+  &.open {
+    max-height: 200px;
+    opacity: 1;
+  }
+
+  &__inner {
+    margin-top: 0.6rem;
+    padding: 0.75rem 0.85rem;
+    background: $panel-info-bg;
+    border-radius: 8px;
+    border-left: 2px solid $cirrus-white;
+    font-size: 0.76rem;
+    color: $cirrus-white;
+    line-height: 1.6;
+  }
+}
+
+// ── Results Footer ────────────────────────────────────────
+
+.results-footer {
+  margin-top: 1.25rem;
+  font-size: 0.66rem;
+  color: $cirrus-white;
+  line-height: 1.55;
+  padding-top: 1rem;
+  border-top: 1px solid $panel-border;
+}
